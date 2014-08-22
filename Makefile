@@ -11,7 +11,7 @@ install:
 	@$(foreach BIN, $(BINS), cp -f $(BIN) $(DESTDIR)$(BINPREFIX);)
 	@mkdir -p $(DESTDIR)/etc/git-sandbox
 	@cp -rf etc/git-sandbox $(DESTDIR)/etc/
-	echo -ne  '\nBINDIR = "'$(BINPREFIX)'"\n' >> $(DESTDIR)/etc/git-sandbox/config.conf
+	echo -ne  '\nBINDIR="'$(BINPREFIX)'"\n' >> $(DESTDIR)/etc/git-sandbox/config.conf
 
 uninstall:
 	@$(foreach BIN, $(BINS), rm -f $(DESTDIR)$(BINPREFIX)/$(notdir $(BIN));)
