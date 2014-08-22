@@ -59,7 +59,7 @@ cp /etc/git-sandbox/vm.tar.gz ${PROJECT_PATH_FULL}
 cd ${PROJECT_PATH_FULL}
 tar -zxf vm.tar.gz
 rm -f vm.tar.gz
-php -f ${nBINDIR}/pass.php > DBPASSWDSITE
+php -f ${BINDIR}/pass.php > DBPASSWDSITE
 
 test -z "$DB_PASS" &&
       {
@@ -71,7 +71,6 @@ test -z "$DB_PASS" &&
   echo '<? $dbHost="localhost"; $dbLogin="'"$PROJECT_NAME"'"; $dbName="'"${PROJECT_NAME}"'"; $dbPasswd="'"${DBPASSWDSITE}"'"; $DOCUMENT_ROOT="'"${PROJECT_PATH_FULL}"'";?>' > /tmp/db_connect.php
   php -f /etc/git-sandbox/db_settings.php
   rm -f /tmp/db_connect.php
-  chown "${PROJECT_USER}:${PROJECT_GROUP}" /home/bitrix/www/bitrix/php_interface/dbconn.php
 
 wget  -P ${PROJECT_PATH_FULL} -q ${URL_BITRIXSETUP} \
   && wget  -P ${PROJECT_PATH_FULL} -q ${URL_BITRIXRESTOR} \
