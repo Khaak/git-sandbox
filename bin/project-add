@@ -59,16 +59,16 @@ cp /etc/git-sandbox/vm.tar.gz ${PROJECT_PATH_FULL}
 cd ${PROJECT_PATH_FULL}
 tar -zxf vm.tar.gz
 rm -f vm.tar.gz
-php -f ${BINDIR}/pass.php > DBPASSWDSITE
+DBPASSWDSITE=`php -f ${BINDIR}/pass.php`
 
 test -z "$DB_PASS" &&
       {
-        res=`mysql -u ${DB_USER} -e "GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_DB.* TO '${PROJECT_NAME}'@'%' IDENTIFIED BY '$DBPASSWDSITE'; GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_DB.* TO '${PROJECT_NAME}'@'localhost' IDENTIFIED BY '$DBPASSWDSITE';"` ;
+        res=`mysql -u ${DB_USER} -e "GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_db.* TO '${PROJECT_NAME}'@'%' IDENTIFIED BY '$DBPASSWDSITE'; GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_db.* TO '${PROJECT_NAME}'@'localhost' IDENTIFIED BY '$DBPASSWDSITE';"` ;
       } || {
-        res=`mysql -u ${DB_USER} -p${DB_PASS} -e "GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_DB.* TO '${PROJECT_NAME}'@'%' IDENTIFIED BY '$DBPASSWDSITE'; GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_DB.* TO '${PROJECT_NAME}'@'localhost' IDENTIFIED BY '$DBPASSWDSITE';"` ;
+        res=`mysql -u ${DB_USER} -p${DB_PASS} -e "GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_db.* TO '${PROJECT_NAME}'@'%' IDENTIFIED BY '$DBPASSWDSITE'; GRANT ALL PRIVILEGES ON ${PROJECT_NAME}_db.* TO '${PROJECT_NAME}'@'localhost' IDENTIFIED BY '$DBPASSWDSITE';"` ;
       }
 
-  echo '<? $dbHost="localhost"; $dbLogin="'"$PROJECT_NAME"'"; $dbName="'"${PROJECT_NAME}"'"; $dbPasswd="'"${DBPASSWDSITE}"'"; $DOCUMENT_ROOT="'"${PROJECT_PATH_FULL}"'";?>' > /tmp/db_connect.php
+  echo '<? $dbHost="localhost"; $dbLogin="'"$PROJECT_NAME"'"; $dbName="'"${PROJECT_NAME}"'_db"; $dbPasswd="'"${DBPASSWDSITE}"'"; $DOCUMENT_ROOT="'"${PROJECT_PATH_FULL}"'";?>' > /tmp/db_connect.php
   php -f /etc/git-sandbox/db_settings.php
   rm -f /tmp/db_connect.php
 
